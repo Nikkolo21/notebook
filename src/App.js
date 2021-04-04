@@ -32,10 +32,16 @@ function App() {
   }, []) // add a new element when the app load
 
   const runCode = (editor) => {
-    const t = Function(editor.getValue());
-    const newElements = [...elements];
-    newElements[editor.container.id.split("-")[1]].result = JSON.stringify(t(), undefined, 4);
-    setElements(newElements);
+    let ev = Function(editor.getValue());
+    setElements(elem => {
+      const newElements = elem.map(e => {
+        if(e.name === editor.container.id) {
+          return {...e, result: JSON.stringify(ev(), undefined, 4)};
+        }
+        return e;
+      })
+      return newElements;
+    });
   }
 
   const runCodeAndCreate = (editor) => {
@@ -44,95 +50,96 @@ function App() {
   }
 
   return (
-    <section style={{padding: "20px"}}>
-      {
-        elements.map((elem, index) =>
-          <section key={index}>
-            {
-              elem.type === TYPES.editor &&
-              <AceEditor
-                  mode="javascript"
-                  name={`editor-${index}`}
-                  width="100%"
-                  style={{marginBottom: 20}}
-                  defaultValue="// Insert code here"
-                  wrapEnabled={true}
-                  setOptions={{
-                    theme: "ace/theme/textmate",
-                    fontSize: 18,
-                    showGutter: true,
-                    showFoldWidgets: false,
-                    showLineNumbers: false,
-                    minLines: 1,
-                    maxLines: 200,
-                  }}
-                  copyWithEmptySelection={true}
-                  commands={[
-                    {
-                      name: 'Run code',
-                      bindKey: {
-                        win: 'Ctrl-Enter',  mac: 'Command-Enter'
+    <section style={{width: "100%", display: "grid", placeItems: "center"}}>
+      <div style={{width: "100%", maxWidth: "1200px", padding: "20px"}}>
+        {
+          elements.map((elem, index) =>
+            <section key={index}>
+              {
+                elem.type === TYPES.editor &&
+                <AceEditor
+                    mode="javascript"
+                    name={elem.name}
+                    width="100%"
+                    style={{marginBottom: 20}}
+                    defaultValue="// Insert code here"
+                    wrapEnabled={true}
+                    setOptions={{
+                      theme: "ace/theme/textmate",
+                      fontSize: 18,
+                      showGutter: true,
+                      showLineNumbers: false,
+                      minLines: 1,
+                      maxLines: 200,
+                    }}
+                    copyWithEmptySelection={true}
+                    commands={[
+                      {
+                        name: 'Run code',
+                        bindKey: {
+                          win: 'Ctrl-Enter',  mac: 'Command-Enter'
+                        },
+                        exec: runCode,
+                        readOnly: false
                       },
-                      exec: runCode,
-                      readOnly: false
-                    },
-                    {
-                      name: 'Run code and create new',
-                      bindKey: {
-                        win: 'Shift-Enter',  mac: 'Shift-Enter'
+                      {
+                        name: 'Run code and create new',
+                        bindKey: {
+                          win: 'Shift-Enter',  mac: 'Shift-Enter'
+                        },
+                        exec: runCodeAndCreate,
                       },
-                      exec: runCodeAndCreate,
-                    },
-                    {
-                      name: 'Save code',
-                      bindKey: {
-                        win: 'Ctrl-S',  mac: 'Command-S'
+                      {
+                        name: 'Save code',
+                        bindKey: {
+                          win: 'Ctrl-S',  mac: 'Command-S'
+                        },
+                        exec: () => console.log('saving code'),
                       },
-                      exec: () => console.log('saving code'),
-                    },
-                    {
-                      name: 'Remove Line',
-                      bindKey: {
-                        win: 'Ctrl-D',  mac: 'Command-D'
-                      },
-                      exec: 'removeline',
-                    }
-                  ]}
-                  showPrintMargin={false}
-                  editorProps={{
-                      $blockScrolling: true
-                  }}
-              />
-            }
-            {
-              elem.result &&
-              <AceEditor
-                  key={index}
-                  readOnly={true}
-                  mode="json"
-                  name={`editor-read-${index}`}
-                  width="100%"
-                  style={{marginBottom: 20}}
-                  value={elem.result}
-                  wrapEnabled={true}
-                  setOptions={{
-                    theme: "ace/theme/katzenmilch",
-                    fontSize: 18,
-                    showGutter: true,
-                    showLineNumbers: false,
-                    minLines: 1,
-                    maxLines: 200,
-                  }}
-                  copyWithEmptySelection={true}
-                  showPrintMargin={false}
-                  editorProps={{
-                      $blockScrolling: true
-                  }}
-              />
-            }
-          </section>
-        )
-      }
+                      {
+                        name: 'Remove Line',
+                        bindKey: {
+                          win: 'Ctrl-D',  mac: 'Command-D'
+                        },
+                        exec: 'removeline',
+                      }
+                    ]}
+                    showPrintMargin={false}
+                    editorProps={{
+                        $blockScrolling: true
+                    }}
+                />
+              }
+              {
+                elem.result &&
+                <AceEditor
+                    key={index}
+                    readOnly={true}
+                    mode="json"
+                    name={`editor-read-${index}`}
+                    width="100%"
+                    style={{marginBottom: 20}}
+                    value={elem.result}
+                    wrapEnabled={true}
+                    setOptions={{
+                      theme: "ace/theme/katzenmilch",
+                      fontSize: 18,
+                      showGutter: true,
+                      showLineNumbers: false,
+                      minLines: 1,
+                      maxLines: 200,
+                    }}
+                    copyWithEmptySelection={true}
+                    showPrintMargin={false}
+                    editorProps={{
+                        $blockScrolling: true
+                    }}
+                />
+              }
+            </section>
+          )
+        }
+      </div>
     </section>
   );
 }
