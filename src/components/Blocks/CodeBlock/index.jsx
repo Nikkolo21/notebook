@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import './CodeBlock.scss';
 import AceEditor from 'react-ace';
 import "ace-builds/src-noconflict/mode-javascript";
@@ -11,6 +11,8 @@ import "ace-builds/src-noconflict/theme-katzenmilch"; // Light (grey)
 // import "ace-builds/src-noconflict/theme-solarized_light"; // Light (pink) LOVE IT!
 // import "ace-builds/src-noconflict/theme-sqlserver"; // Light
 // import "ace-builds/src-noconflict/theme-ambiance"; // Dark. i love this
+import { v4 as uuidv4 } from 'uuid';
+import ConsoleBlock from '../ConsoleBlock';
 
 const CodeBlock = ({
   name = "",
@@ -19,6 +21,14 @@ const CodeBlock = ({
   createCodeFn = () => {},
   result
 }) => {
+  const [snippets, setSnippets]  = useState([]);
+
+  useEffect(() => {
+    result && setSnippets(snippet => [...snippet, {id: uuidv4(), result}])
+    console.log(snippets)
+    return () => setSnippets([]);
+  }, [result])
+
   return (
     <section className="editor-section">
       <AceEditor
@@ -111,30 +121,11 @@ const CodeBlock = ({
         }}
       />
       {
-        result && 
-        <AceEditor
-          highlightActiveLine={false}
-          readOnly={true}
-          mode="json"
-          name={`${name}-read`}
-          width="100%"
-          className="editor-section_result"
-          value={result}
-          wrapEnabled={true}
-          setOptions={{
-            theme: "ace/theme/katzenmilch",
-            fontSize: 18,
-            showGutter: true,
-            showLineNumbers: false,
-            minLines: 1,
-            maxLines: 200,
-          }}
-          copyWithEmptySelection={true}
-          showPrintMargin={false}
-          editorProps={{
-              $blockScrolling: true
-          }}
-        />
+        snippets.map(snippet => 
+          {
+            return <ConsoleBlock key={snippet.id} info={snippet} />
+          }
+        )
       }
     </section>
   );

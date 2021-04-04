@@ -21,12 +21,10 @@ const Book = () => {
   }, []) // add a new element when the app load
 
   const runCode = editor => {
-    const ev = Function(editor.getValue());
-    if(ev() === window || typeof ev() === "function") return;
     setElements(elem => {
       const newElements = elem.map(e => {
         if(e.name === editor.container.id) {
-          return {...e, result: JSON.stringify(ev(), undefined, 4)};
+          return {...e, result: editor.getValue()};
         }
         return e;
       })
@@ -36,7 +34,6 @@ const Book = () => {
 
   const runCodeAndCreate = editor => {
     const ev = Function(editor.getValue());
-    if(ev() === window) return;
     setElements(elem => {
       const newElements = elem.map(e => {
         if(e.name === editor.container.id) {
