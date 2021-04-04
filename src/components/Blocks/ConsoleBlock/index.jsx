@@ -1,12 +1,12 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import Playground from 'javascript-playgrounds';
 
 const ConsoleBlock = ({ info }) => {
   return (
     <Playground
       title={info?.id} 
-      style={{height: 200, marginTop: 20}}
-      panes={[{type: 'player', style: {display: 'none'}}, {type: 'console'}]}
+      style={{marginTop: 20, padding: 10, backgroundColor: "rgba(10, 10, 10, 0.05"}}
+      panes={[{type: 'player', style: {display: 'none'}}, {type: 'console', showLineNumber: false, renderReactElements: true}]}
       code={info?.result}
     />
   );

@@ -33,11 +33,10 @@ const Book = () => {
   }
 
   const runCodeAndCreate = editor => {
-    const ev = Function(editor.getValue());
     setElements(elem => {
       const newElements = elem.map(e => {
         if(e.name === editor.container.id) {
-          return {...e, result: JSON.stringify(ev(), undefined, 4)};
+          return {...e, result: editor.getValue()};
         }
         return e;
       })

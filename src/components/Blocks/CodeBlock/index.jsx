@@ -41,7 +41,7 @@ const CodeBlock = ({
         wrapEnabled={true}
         setOptions={{
           theme: "ace/theme/textmate",
-          fontSize: 18,
+          fontSize: 16,
           showGutter: true,
           showLineNumbers: false,
           minLines: 1,
