@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import CodeBlock from '../CodeBlock';
+import CodeBlock from '../Blocks/CodeBlock';
 import './Book.scss'
 
 const TYPES = {
@@ -21,7 +21,8 @@ const Book = () => {
   }, []) // add a new element when the app load
 
   const runCode = editor => {
-    let ev = Function(editor.getValue());
+    const ev = Function(editor.getValue());
+    if(ev() === window || typeof ev() === "function") return;
     setElements(elem => {
       const newElements = elem.map(e => {
         if(e.name === editor.container.id) {
@@ -34,8 +35,21 @@ const Book = () => {
   }
 
   const runCodeAndCreate = editor => {
+    const ev = Function(editor.getValue());
+    if(ev() === window) return;
+    setElements(elem => {
+      const newElements = elem.map(e => {
+        if(e.name === editor.container.id) {
+          return {...e, result: JSON.stringify(ev(), undefined, 4)};
+        }
+        return e;
+      })
+      return [...newElements, newElement];
+    });
+  }
+
+  const createCode = () => {
     setElements(elem => [...elem, newElement]);
-    console.log(editor.getValue());
   }
 
   return (
@@ -46,7 +60,13 @@ const Book = () => {
             <section key={index}>
               {
                 elem.type === TYPES.editor &&
-                <CodeBlock name={elem.name} runCodeFn={runCode} runCodeAndCreateFn={runCodeAndCreate} result={elem.result} />
+                <CodeBlock
+                  name={elem.name}
+                  runCodeFn={runCode}
+                  runCodeAndCreateFn={runCodeAndCreate}
+                  createCodeFn={createCode}
+                  result={elem.result}
+                />
               }
             </section>
           )

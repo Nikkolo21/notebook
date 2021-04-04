@@ -12,10 +12,17 @@ import "ace-builds/src-noconflict/theme-katzenmilch"; // Light (grey)
 // import "ace-builds/src-noconflict/theme-sqlserver"; // Light
 // import "ace-builds/src-noconflict/theme-ambiance"; // Dark. i love this
 
-const CodeBlock = ({name = "", runCodeFn = () => {}, runCodeAndCreateFn = () => {}, result }) => {
+const CodeBlock = ({
+  name = "",
+  runCodeFn = () => {},
+  runCodeAndCreateFn = () => {},
+  createCodeFn = () => {},
+  result
+}) => {
   return (
-    <>
+    <section className="editor-section">
       <AceEditor
+        highlightActiveLine={false}
         mode="javascript"
         name={name}
         width="100%"
@@ -60,6 +67,42 @@ const CodeBlock = ({name = "", runCodeFn = () => {}, runCodeAndCreateFn = () => 
               win: 'Ctrl-D',  mac: 'Command-D'
             },
             exec: 'removeline',
+          },
+          // create new directly
+          {
+            name: 'Create new code',
+            bindKey: {
+              win: 'Ctrl-Shift-C',  mac: 'Command-Shift-C'
+            },
+            exec: createCodeFn,
+          },
+          {
+            name: 'Create new image',
+            bindKey: {
+              win: 'Ctrl-Shift-I',  mac: 'Command-Shift-I'
+            },
+            exec: () => console.log("create image"),
+          },
+          {
+            name: 'Create new graphic',
+            bindKey: {
+              win: 'Ctrl-Shift-G',  mac: 'Command-Shift-G'
+            },
+            exec: () => console.log("create graphic"),
+          },
+          {
+            name: 'Create new PDF',
+            bindKey: {
+              win: 'Ctrl-Shift-P',  mac: 'Command-Shift-P'
+            },
+            exec: () => console.log("create graphic"),
+          },
+          {
+            name: 'Create new text',
+            bindKey: {
+              win: 'Ctrl-Shift-X',  mac: 'Command-Shift-X'
+            },
+            exec: () => console.log("create text"),
           }
         ]}
         showPrintMargin={false}
@@ -70,11 +113,12 @@ const CodeBlock = ({name = "", runCodeFn = () => {}, runCodeAndCreateFn = () => 
       {
         result && 
         <AceEditor
+          highlightActiveLine={false}
           readOnly={true}
           mode="json"
           name={`${name}-read`}
           width="100%"
-          className="editor"
+          className="editor-section_result"
           value={result}
           wrapEnabled={true}
           setOptions={{
@@ -92,7 +136,7 @@ const CodeBlock = ({name = "", runCodeFn = () => {}, runCodeAndCreateFn = () => 
           }}
         />
       }
-    </>
+    </section>
   );
 }
 
