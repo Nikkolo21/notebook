@@ -3,10 +3,13 @@ import AceEditor from 'react-ace';
 import "ace-builds/src-noconflict/mode-javascript";
 import "ace-builds/src-noconflict/mode-json";
 // themes
-import "ace-builds/src-noconflict/theme-github";
-import "ace-builds/src-noconflict/theme-chrome";
-import "ace-builds/src-noconflict/theme-textmate";
-import "ace-builds/src-noconflict/theme-tomorrow_night_blue";
+import "ace-builds/src-noconflict/theme-textmate"; // Light
+// import "ace-builds/src-noconflict/theme-crimson_editor"; // Light
+// import "ace-builds/src-noconflict/theme-github"; // Light
+import "ace-builds/src-noconflict/theme-katzenmilch"; // Light (grey)
+// import "ace-builds/src-noconflict/theme-solarized_light"; // Light (pink) LOVE IT!
+// import "ace-builds/src-noconflict/theme-sqlserver"; // Light
+// import "ace-builds/src-noconflict/theme-ambiance"; // Dark. i love this
 
 import './App.scss';
 
@@ -31,7 +34,7 @@ function App() {
   const runCode = (editor) => {
     const t = Function(editor.getValue());
     const newElements = [...elements];
-    newElements[editor.container.id.split("-")[1]].result = JSON.stringify(t(), null, '\t');
+    newElements[editor.container.id.split("-")[1]].result = JSON.stringify(t(), undefined, 4);
     setElements(newElements);
   }
 
@@ -55,9 +58,11 @@ function App() {
                   defaultValue="// Insert code here"
                   wrapEnabled={true}
                   setOptions={{
-                    theme: "ace/theme/github",
+                    theme: "ace/theme/textmate",
                     fontSize: 18,
                     showGutter: true,
+                    showFoldWidgets: false,
+                    showLineNumbers: false,
                     minLines: 1,
                     maxLines: 200,
                   }}
@@ -111,9 +116,10 @@ function App() {
                   value={elem.result}
                   wrapEnabled={true}
                   setOptions={{
-                    theme: "ace/theme/github",
+                    theme: "ace/theme/katzenmilch",
                     fontSize: 18,
-                    showGutter: false,
+                    showGutter: true,
+                    showLineNumbers: false,
                     minLines: 1,
                     maxLines: 200,
                   }}
