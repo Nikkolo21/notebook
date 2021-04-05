@@ -36,11 +36,12 @@ const CodeBlock = ({
           mode="javascript"
           name={name}
           width="100%"
+          style={{color: "grey"}}
           defaultValue="// Write code here"
           wrapEnabled={true}
           setOptions={{
             theme: "ace/theme/github",
-            fontSize: 16,
+            fontSize: 18,
             printMarginColumn: 40,
             showGutter: false,
             showLineNumbers: false,
