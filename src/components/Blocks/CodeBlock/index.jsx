@@ -4,10 +4,10 @@ import AceEditor from 'react-ace';
 import "ace-builds/src-noconflict/mode-javascript";
 import "ace-builds/src-noconflict/mode-json";
 // themes
-import "ace-builds/src-noconflict/theme-textmate"; // Light
+import "ace-builds/src-noconflict/theme-github"; // Light
+// import "ace-builds/src-noconflict/theme-textmate"; // Light
 // import "ace-builds/src-noconflict/theme-crimson_editor"; // Light
-// import "ace-builds/src-noconflict/theme-github"; // Light
-import "ace-builds/src-noconflict/theme-katzenmilch"; // Light (grey)
+// import "ace-builds/src-noconflict/theme-katzenmilch"; // Light (grey)
 // import "ace-builds/src-noconflict/theme-solarized_light"; // Light (pink) LOVE IT!
 // import "ace-builds/src-noconflict/theme-sqlserver"; // Light
 // import "ace-builds/src-noconflict/theme-ambiance"; // Dark. i love this
@@ -21,12 +21,11 @@ const CodeBlock = ({
   createCodeFn = () => {},
   result
 }) => {
-  const [snippets, setSnippets]  = useState([]);
+  const [snippet, setSnippet]  = useState(null);
 
   useEffect(() => {
-    result && setSnippets(snippet => [...snippet, {id: uuidv4(), result}])
-    console.log(snippets)
-    return () => setSnippets([]);
+    result && setSnippet({id: uuidv4(), result})
+    return () => setSnippet(null);
   }, [result])
 
   return (
@@ -40,7 +39,7 @@ const CodeBlock = ({
           defaultValue="// Write code here"
           wrapEnabled={true}
           setOptions={{
-            theme: "ace/theme/textmate",
+            theme: "ace/theme/github",
             fontSize: 16,
             printMarginColumn: 40,
             showGutter: false,
@@ -123,11 +122,7 @@ const CodeBlock = ({
         />
       </div>
       {
-        snippets.map(snippet => 
-          {
-            return <ConsoleBlock key={snippet.id} info={snippet} />
-          }
-        )
+        snippet && <ConsoleBlock key={snippet.id} info={snippet} />
       }
     </section>
   );
