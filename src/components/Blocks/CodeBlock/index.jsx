@@ -31,95 +31,97 @@ const CodeBlock = ({
 
   return (
     <section className="editor-section">
-      <AceEditor
-        highlightActiveLine={false}
-        mode="javascript"
-        name={name}
-        width="100%"
-        className="editor"
-        defaultValue="// Write code here"
-        wrapEnabled={true}
-        setOptions={{
-          theme: "ace/theme/textmate",
-          fontSize: 16,
-          showGutter: true,
-          showLineNumbers: false,
-          minLines: 1,
-          maxLines: 200,
-        }}
-        copyWithEmptySelection={true}
-        commands={[
-          {
-            name: 'Run code',
-            bindKey: {
-              win: 'Ctrl-Enter',  mac: 'Command-Enter'
+      <div className="editor-section_code">
+        <AceEditor
+          highlightActiveLine={false}
+          mode="javascript"
+          name={name}
+          width="100%"
+          defaultValue="// Write code here"
+          wrapEnabled={true}
+          setOptions={{
+            theme: "ace/theme/textmate",
+            fontSize: 16,
+            printMarginColumn: 40,
+            showGutter: false,
+            showLineNumbers: false,
+            minLines: 1,
+            maxLines: 200,
+          }}
+          copyWithEmptySelection={true}
+          commands={[
+            {
+              name: 'Run code',
+              bindKey: {
+                win: 'Ctrl-Enter',  mac: 'Command-Enter'
+              },
+              exec: runCodeFn,
+              readOnly: false
             },
-            exec: runCodeFn,
-            readOnly: false
-          },
-          {
-            name: 'Run code and create new',
-            bindKey: {
-              win: 'Shift-Enter',  mac: 'Shift-Enter'
+            {
+              name: 'Run code and create new',
+              bindKey: {
+                win: 'Shift-Enter',  mac: 'Shift-Enter'
+              },
+              exec: runCodeAndCreateFn,
             },
-            exec: runCodeAndCreateFn,
-          },
-          {
-            name: 'Save code',
-            bindKey: {
-              win: 'Ctrl-S',  mac: 'Command-S'
+            {
+              name: 'Save code',
+              bindKey: {
+                win: 'Ctrl-S',  mac: 'Command-S'
+              },
+              exec: () => console.log('saving code'),
             },
-            exec: () => console.log('saving code'),
-          },
-          {
-            name: 'Remove Line',
-            bindKey: {
-              win: 'Ctrl-D',  mac: 'Command-D'
+            {
+              name: 'Remove Line',
+              bindKey: {
+                win: 'Ctrl-D',  mac: 'Command-D'
+              },
+              exec: 'removeline',
             },
-            exec: 'removeline',
-          },
-          // create new directly
-          {
-            name: 'Create new code',
-            bindKey: {
-              win: 'Ctrl-Shift-C',  mac: 'Command-Shift-C'
+            // create new directly
+            {
+              name: 'Create new code',
+              bindKey: {
+                win: 'Ctrl-Shift-C',  mac: 'Command-Shift-C'
+              },
+              exec: createCodeFn,
             },
-            exec: createCodeFn,
-          },
-          {
-            name: 'Create new image',
-            bindKey: {
-              win: 'Ctrl-Shift-I',  mac: 'Command-Shift-I'
+            {
+              name: 'Create new image',
+              bindKey: {
+                win: 'Ctrl-Shift-I',  mac: 'Command-Shift-I'
+              },
+              exec: () => console.log("create image"),
             },
-            exec: () => console.log("create image"),
-          },
-          {
-            name: 'Create new graphic',
-            bindKey: {
-              win: 'Ctrl-Shift-G',  mac: 'Command-Shift-G'
+            {
+              name: 'Create new graphic',
+              bindKey: {
+                win: 'Ctrl-Shift-G',  mac: 'Command-Shift-G'
+              },
+              exec: () => console.log("create graphic"),
             },
-            exec: () => console.log("create graphic"),
-          },
-          {
-            name: 'Create new PDF',
-            bindKey: {
-              win: 'Ctrl-Shift-P',  mac: 'Command-Shift-P'
+            {
+              name: 'Create new PDF',
+              bindKey: {
+                win: 'Ctrl-Shift-P',  mac: 'Command-Shift-P'
+              },
+              exec: () => console.log("create graphic"),
             },
-            exec: () => console.log("create graphic"),
-          },
-          {
-            name: 'Create new text',
-            bindKey: {
-              win: 'Ctrl-Shift-X',  mac: 'Command-Shift-X'
-            },
-            exec: () => console.log("create text"),
-          }
-        ]}
-        showPrintMargin={false}
-        editorProps={{
-            $blockScrolling: true
-        }}
-      />
+            {
+              name: 'Create new text',
+              bindKey: {
+                win: 'Ctrl-Shift-X',  mac: 'Command-Shift-X'
+              },
+              exec: () => console.log("create text"),
+            }
+          ]}
+          showPrintMargin={false}
+          editorProps={{
+              $blockScrolling: true
+          }}
+        />
+      </div>
       {
         snippets.map(snippet => 
           {
