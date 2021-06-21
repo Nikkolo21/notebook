@@ -8,14 +8,14 @@ const TYPES = {
   code: 'code',
 }
 
+const getNewElement = () => ({
+  name: `editor-${uuidv4()}`,
+  type: TYPES.editor,
+  result: null,
+});
+
 const Book = () => {
   const [elements, setElements] = useState([]);
-
-  const getNewElement = () => ({
-    name: `editor-${uuidv4()}`,
-    type: TYPES.editor,
-    result: null,
-  });
 
   useEffect(() => {
     setElements(elem => [...elem, getNewElement()]);
