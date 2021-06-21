@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { v4 as uuidv4 } from 'uuid';
 import CodeBlock from '../Blocks/CodeBlock';
 import './Book.scss'
 
@@ -9,16 +10,16 @@ const TYPES = {
 
 const Book = () => {
   const [elements, setElements] = useState([]);
-  
-  const newElement = {
-    name: `editor-${elements.length + 1}`,
+
+  const getNewElement = () => ({
+    name: `editor-${uuidv4()}`,
     type: TYPES.editor,
     result: null,
-  }
+  });
 
   useEffect(() => {
-    setElements(elem => [...elem, newElement]);
-  }, []) // add a new element when the app load
+    setElements(elem => [...elem, getNewElement()]);
+  }, []); // add a new element when the app load
 
   const runCode = editor => {
     setElements(elem => {
@@ -40,12 +41,12 @@ const Book = () => {
         }
         return e;
       })
-      return [...newElements, newElement];
+      return [...newElements, getNewElement()];
     });
   }
 
   const createCode = () => {
-    setElements(elem => [...elem, newElement]);
+    setElements(elem => [...elem, getNewElement()]);
   }
 
   return (

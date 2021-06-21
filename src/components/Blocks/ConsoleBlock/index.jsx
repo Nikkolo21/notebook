@@ -1,13 +1,27 @@
 import React from 'react';
-import './ConsoleBlock.scss';
 import Playground from 'javascript-playgrounds';
+import './ConsoleBlock.scss';
+
+const panes = [
+  {
+    type: 'player',
+    style: {
+      display: 'none'
+    }
+  },
+  {
+    type: 'console',
+    showLineNumber: false,
+    renderReactElements: true
+  }
+]
 
 const ConsoleBlock = ({ info }) => {
   return (
     <Playground
       title={info?.id}
       className="console"
-      panes={[{type: 'player', style: {display: 'none'}}, {type: 'console', showLineNumber: false, renderReactElements: true}]}
+      panes={panes}
       code={info?.result}
     />
   );
