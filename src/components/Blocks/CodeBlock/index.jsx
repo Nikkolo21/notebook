@@ -27,23 +27,26 @@ const CodeBlock = ({
     <section className="editor-section">
       <div className="editor-section_code">
         <AceEditor
+          wrapEnabled
+          focus
+          copyWithEmptySelection
           highlightActiveLine={false}
           mode="javascript"
           name={name}
           width="100%"
           style={{color: "grey"}}
           defaultValue="// Write code here"
-          wrapEnabled={true}
           setOptions={{
-            theme: "ace/theme/github",
+            minLines: 1,
+            maxLines: 200,
+            tabSize: 2,
             fontSize: 18,
             printMarginColumn: 40,
             showGutter: false,
             showLineNumbers: false,
-            minLines: 1,
-            maxLines: 200,
+            displayIndentGuides: false,
+            theme: "ace/theme/github",
           }}
-          copyWithEmptySelection={true}
           commands={commands(runCodeFn, runCodeAndCreateFn, createCodeFn)}
           showPrintMargin={false}
           editorProps={{
