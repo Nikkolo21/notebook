@@ -1,0 +1,21 @@
+.book-section {
+  width: 100%;
+  display: grid;
+  place-items: center;
+  padding: 20px 0;
+  &_body {
+    width: 100%;
+    max-width: 1000px;
+    padding: 50px;
+  }
+  &_help-toggle {
+    cursor: pointer;
+    border: none;
+    padding: 10px;
+    background-color: rgb(181, 213, 255);
+    color: white;
+    place-self: end;
+    margin-right: 20px;
+    border-radius: 5px;
+  }
+}

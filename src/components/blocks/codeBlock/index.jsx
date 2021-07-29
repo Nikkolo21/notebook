@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import AceEditor from 'react-ace';
+import { v4 as uuidv4 } from 'uuid';
 import "ace-builds/src-noconflict/mode-javascript";
 import "ace-builds/src-noconflict/mode-json";
 import "ace-builds/src-noconflict/theme-github";
 // import "ace-builds/src-noconflict/theme-ambiance"; // Dark. i love this
-import { v4 as uuidv4 } from 'uuid';
-import ConsoleBlock from '../ConsoleBlock';
-import './CodeBlock.scss';
+import ConsoleBlock from '../consoleBlock';
 import { commands } from './commands';
+import './CodeBlock.scss';
 
 const CodeBlock = ({
   name = "",
@@ -47,7 +47,7 @@ const CodeBlock = ({
             displayIndentGuides: false,
             theme: "ace/theme/github",
           }}
-          commands={commands(runCodeFn, runCodeAndCreateFn, createCodeFn)}
+          commands={commands({runCodeFn, runCodeAndCreateFn, createCodeFn})}
           showPrintMargin={false}
           editorProps={{
             $blockScrolling: true

@@ -1,7 +1,10 @@
 import React, { useEffect, useState } from 'react';
+import { useDispatch } from 'react-redux';
 import { v4 as uuidv4 } from 'uuid';
-import CodeBlock from '../Blocks/CodeBlock';
-import './Book.scss'
+import CodeBlock from '../../components/blocks/codeBlock';
+import { HelpModal } from '../../components/modals/helpModal';
+import { openHelpModal } from '../../store/actions/book';
+import './Book.scss';
 
 const TYPES = {
   editor: 'editor',
@@ -15,6 +18,7 @@ const getNewElement = () => ({
 });
 
 const Book = () => {
+  const dispatch = useDispatch();
   const [elements, setElements] = useState([]);
 
   useEffect(() => {
@@ -50,26 +54,32 @@ const Book = () => {
   }
 
   return (
-    <section className="book-section">
-      <div className="book-section_body">
-        {
-          elements.map((elem, index) =>
-            <section key={index}>
-              {
-                elem.type === TYPES.editor &&
-                <CodeBlock
-                  name={elem.name}
-                  runCodeFn={runCode}
-                  runCodeAndCreateFn={runCodeAndCreate}
-                  createCodeFn={createCode}
-                  result={elem.result}
-                />
-              }
-            </section>
-          )
-        }
-      </div>
-    </section>
+    <>
+      <section className="book-section">
+        <button className="book-section_help-toggle" onClick={() => dispatch(openHelpModal())}>
+          Help (Ctrl + Shift + H)
+        </button>
+        <div className="book-section_body">
+          {
+            elements.map((elem, index) =>
+              <section key={index}>
+                {
+                  elem.type === TYPES.editor &&
+                  <CodeBlock
+                    name={elem.name}
+                    runCodeFn={runCode}
+                    runCodeAndCreateFn={runCodeAndCreate}
+                    createCodeFn={createCode}
+                    result={elem.result}
+                  />
+                }
+              </section>
+            )
+          }
+        </div>
+      </section>
+      <HelpModal />
+    </>
   );
 }
 

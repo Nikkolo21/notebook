@@ -1,4 +1,11 @@
-export const commands = (runCodeFn, runCodeAndCreateFn, createCodeFn) => ([
+export const commands = ({runCodeFn, runCodeAndCreateFn, createCodeFn}) => ([
+  {
+    name: 'Create new code',
+    bindKey: {
+      win: 'Ctrl-Shift-C',  mac: 'Command-Shift-C'
+    },
+    exec: createCodeFn,
+  },
   {
     name: 'Run code',
     bindKey: {
@@ -28,14 +35,6 @@ export const commands = (runCodeFn, runCodeAndCreateFn, createCodeFn) => ([
     },
     exec: 'removeline',
   },
-  // create new directly
-  {
-    name: 'Create new code',
-    bindKey: {
-      win: 'Ctrl-Shift-C',  mac: 'Command-Shift-C'
-    },
-    exec: createCodeFn,
-  },
   {
     name: 'Create new image',
     bindKey: {
@@ -63,5 +62,12 @@ export const commands = (runCodeFn, runCodeAndCreateFn, createCodeFn) => ([
       win: 'Ctrl-Shift-X',  mac: 'Command-Shift-X'
     },
     exec: () => console.log("create text"),
+  },
+  {
+    name: 'Open help modal',
+    bindKey: {
+      win: 'Ctrl-Shift-H',  mac: 'Command-Shift-H'
+    },
+    exec: () => console.log("Open help modal"),
   }
 ]);
