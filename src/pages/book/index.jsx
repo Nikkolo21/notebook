@@ -61,7 +61,7 @@ const Book = () => {
     <>
       <section className="book-section">
         <button className="book-section_help-toggle" onClick={openHelpModalFn}>
-          Help (Ctrl + Shift + H)
+          ?
         </button>
         <div className="book-section_body">
           {

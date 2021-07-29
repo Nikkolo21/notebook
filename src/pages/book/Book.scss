@@ -10,11 +10,13 @@
   }
   &_help-toggle {
     cursor: pointer;
+    font-weight: bold;
     border: none;
-    padding: 10px;
-    background-color: rgb(181, 213, 255);
+    padding: 10px 20px;
+    background-color: #b5bbff;
     color: white;
     place-self: end;
+    font-size: 16px;
     margin-right: 20px;
     border-radius: 5px;
   }
