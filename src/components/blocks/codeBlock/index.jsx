@@ -36,7 +36,7 @@ const CodeBlock = ({
           name={name}
           width="100%"
           style={{color: "grey"}}
-          defaultValue="// Write code here"
+          defaultValue="console.log('My code')"
           setOptions={{
             minLines: 1,
             maxLines: 200,
