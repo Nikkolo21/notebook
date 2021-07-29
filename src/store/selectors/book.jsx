@@ -8,4 +8,9 @@ export const helpModalSelector = createSelector(
   state => state.helpModal,
 );
 
+export const getBlocksSelector = createSelector(
+  bookSelector,
+  state => state.blocks,
+);
+
 export const defaultError = createSelector(bookSelector, state => state.error);

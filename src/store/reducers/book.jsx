@@ -1,10 +1,12 @@
 import {
   OPEN_HELP_MODAL,
   CLOSE_HELP_MODAL,
+  SET_BLOCK,
 } from '../actions/book';
 
 const initialState = {
   helpModal: false,
+  blocks: [],
 };
 
 const bookReducer = (state = initialState, action) => {
@@ -19,6 +21,15 @@ const bookReducer = (state = initialState, action) => {
       return {
         ...state,
         helpModal: false,
+      };
+    }
+    case SET_BLOCK: {
+      return {
+        ...state,
+        blocks: [
+          ...state.blocks,
+          action.payload,
+        ],
       };
     }
     default:

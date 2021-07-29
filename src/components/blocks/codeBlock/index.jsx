@@ -8,12 +8,14 @@ import "ace-builds/src-noconflict/theme-github";
 import ConsoleBlock from '../consoleBlock';
 import { commands } from '../../../utils/commands';
 import './CodeBlock.scss';
+import { Block } from '../block';
 
 const CodeBlock = ({
   name = "",
   runCodeFn = () => {},
   runCodeAndCreateFn = () => {},
-  createCodeFn = () => {},
+  createCodeBlockFn = () => {},
+  createTextBlockFn = () => {},
   openHelpModalFn = () => {},
   result
 }) => {
@@ -25,45 +27,48 @@ const CodeBlock = ({
   }, [result])
 
   return (
-    <section className="editor-section">
-      <div className="editor-section_code">
-        <AceEditor
-          wrapEnabled
-          focus
-          copyWithEmptySelection
-          highlightActiveLine={false}
-          mode="javascript"
-          name={name}
-          width="100%"
-          style={{color: "grey"}}
-          defaultValue="console.log('My code');"
-          setOptions={{
-            minLines: 1,
-            maxLines: 200,
-            tabSize: 2,
-            fontSize: 18,
-            printMarginColumn: 40,
-            showGutter: false,
-            showLineNumbers: false,
-            displayIndentGuides: false,
-            theme: "ace/theme/github",
-          }}
-          commands={commands({
-            runCodeFn,
-            runCodeAndCreateFn,
-            createCodeFn,
-            openHelpModalFn,
-          })}
-          showPrintMargin={false}
-          editorProps={{
-            $blockScrolling: true
-          }}
-        />
-      </div>
-      {
-        snippet && <ConsoleBlock key={snippet.id} info={snippet} />
-      }
-    </section>
+    <Block text="Code" color="rgba(10,10,10,0.2)">
+      <section className="editor-section">
+        <div className="editor-section_code">
+          <AceEditor
+            wrapEnabled
+            focus
+            copyWithEmptySelection
+            highlightActiveLine={false}
+            mode="javascript"
+            name={name}
+            width="100%"
+            style={{color: "grey"}}
+            defaultValue="console.log('My code');"
+            setOptions={{
+              minLines: 1,
+              maxLines: 200,
+              tabSize: 2,
+              fontSize: 20,
+              printMarginColumn: 40,
+              showGutter: false,
+              showLineNumbers: false,
+              displayIndentGuides: false,
+              theme: "ace/theme/github",
+            }}
+            commands={commands({
+              runCodeFn,
+              runCodeAndCreateFn,
+              createCodeBlockFn,
+              createTextBlockFn,
+              openHelpModalFn,
+            })}
+            showPrintMargin={false}
+            editorProps={{
+              $blockScrolling: true
+            }}
+          />
+        </div>
+        {
+          snippet && <ConsoleBlock key={snippet.id} info={snippet} />
+        }
+      </section>
+    </Block>
   );
 }
 

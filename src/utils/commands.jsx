@@ -3,7 +3,8 @@ import { v4 as uuidv4 } from 'uuid';
 export const commands = ({
   runCodeFn = () => {},
   runCodeAndCreateFn = () => {},
-  createCodeFn = () => {},
+  createCodeBlockFn = () => {},
+  createTextBlockFn = () => {},
   openHelpModalFn = () => {}
 }) => ([
   {
@@ -12,7 +13,7 @@ export const commands = ({
     bindKey: {
       win: 'Ctrl-Shift-C',  mac: 'Command-Shift-C'
     },
-    exec: createCodeFn,
+    exec: createCodeBlockFn,
   },
   {
     id: uuidv4(),
@@ -77,7 +78,7 @@ export const commands = ({
     bindKey: {
       win: 'Ctrl-Shift-X',  mac: 'Command-Shift-X'
     },
-    exec: () => console.log("create text"),
+    exec: createTextBlockFn,
   },
   {
     id: uuidv4(),
