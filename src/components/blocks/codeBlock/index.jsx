@@ -6,7 +6,7 @@ import "ace-builds/src-noconflict/mode-json";
 import "ace-builds/src-noconflict/theme-github";
 // import "ace-builds/src-noconflict/theme-ambiance"; // Dark. i love this
 import ConsoleBlock from '../consoleBlock';
-import { commands } from './commands';
+import { commands } from '../../../utils/commands';
 import './CodeBlock.scss';
 
 const CodeBlock = ({
@@ -14,6 +14,7 @@ const CodeBlock = ({
   runCodeFn = () => {},
   runCodeAndCreateFn = () => {},
   createCodeFn = () => {},
+  openHelpModalFn = () => {},
   result
 }) => {
   const [snippet, setSnippet]  = useState(null);
@@ -47,7 +48,12 @@ const CodeBlock = ({
             displayIndentGuides: false,
             theme: "ace/theme/github",
           }}
-          commands={commands({runCodeFn, runCodeAndCreateFn, createCodeFn})}
+          commands={commands({
+            runCodeFn,
+            runCodeAndCreateFn,
+            createCodeFn,
+            openHelpModalFn,
+          })}
           showPrintMargin={false}
           editorProps={{
             $blockScrolling: true

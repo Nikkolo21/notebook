@@ -53,10 +53,14 @@ const Book = () => {
     setElements(elem => [...elem, getNewElement()]);
   }
 
+  const openHelpModalFn = () => {
+    dispatch(openHelpModal());
+  }
+
   return (
     <>
       <section className="book-section">
-        <button className="book-section_help-toggle" onClick={() => dispatch(openHelpModal())}>
+        <button className="book-section_help-toggle" onClick={openHelpModalFn}>
           Help (Ctrl + Shift + H)
         </button>
         <div className="book-section_body">
@@ -70,6 +74,7 @@ const Book = () => {
                     runCodeFn={runCode}
                     runCodeAndCreateFn={runCodeAndCreate}
                     createCodeFn={createCode}
+                    openHelpModalFn={openHelpModalFn}
                     result={elem.result}
                   />
                 }

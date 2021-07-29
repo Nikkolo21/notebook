@@ -1,4 +1,4 @@
-export const commands = ({runCodeFn, runCodeAndCreateFn, createCodeFn}) => ([
+export const commands = ({runCodeFn, runCodeAndCreateFn, createCodeFn, openHelpModalFn}) => ([
   {
     name: 'Create new code',
     bindKey: {
@@ -68,6 +68,6 @@ export const commands = ({runCodeFn, runCodeAndCreateFn, createCodeFn}) => ([
     bindKey: {
       win: 'Ctrl-Shift-H',  mac: 'Command-Shift-H'
     },
-    exec: () => console.log("Open help modal"),
+    exec: openHelpModalFn,
   }
 ]);
