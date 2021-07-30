@@ -18,6 +18,9 @@
     overflow: auto;
     position: relative;
   }
+  &_body:focus-visible {
+    outline: none;
+  }
   &_close {
     cursor: pointer;
     position: absolute;

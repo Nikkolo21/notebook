@@ -6,7 +6,7 @@ export const Block = ({text, children, color = 'rgba(10,10,10,0.1)', actions = [
     <div className="block-wrapper">
       <div className="block-actions" style={{backgroundColor: color}}>
         { text }
-        { actions.map(action => <a onClick={action.onClick}>{action.icon}</a>) }
+        { actions.map(action => <a key={action.id} onClick={action.onClick}>{action.icon}</a>) }
       </div>
       { children }
     </div>

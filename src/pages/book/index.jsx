@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { useCallback } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { v4 as uuidv4 } from 'uuid';
@@ -24,7 +24,6 @@ const getNewElement = (type) => ({
 const Book = () => {
   const dispatch = useDispatch();
   const blocks = useSelector(getBlocksSelector);
-  const [elements, setElements] = useState([]);
 
   const createCodeBlock = useCallback(() => {
     dispatch(pushBlock(getNewElement(TYPES.editor)));
@@ -42,14 +41,18 @@ const Book = () => {
     return blocks.find(block => block.name === editor.container.id);
   };
 
+  const editBlockFn = (block) => {
+    dispatch(editBlock(block));
+  }
+
   const runCode = editor => {
     const findedBlock = findBlock(editor);
-    dispatch(editBlock({...findedBlock, result: editor.getValue()}));
+    editBlockFn({...findedBlock, result: editor.getValue()});
   }
 
   const runCodeAndCreate = editor => {
     const findedBlock = findBlock(editor);
-    dispatch(editBlock({...findedBlock, result: editor.getValue()}));
+    editBlockFn({...findedBlock, result: editor.getValue()});
     dispatch(pushBlock(getNewElement(TYPES.editor)));
   }
 
@@ -57,28 +60,27 @@ const Book = () => {
     dispatch(openHelpModal());
   }
 
-  const getBlock = (elem) => {
+  const getBlock = useCallback((elem) => {
     switch (elem.type) {
       case TYPES.editor:
         return (
           <CodeBlock
-            name={elem.name}
+            elem={elem}
             runCodeFn={runCode}
             runCodeAndCreateFn={runCodeAndCreate}
             createCodeBlockFn={createCodeBlock}
             createTextBlockFn={createTextBlock}
             openHelpModalFn={openHelpModalFn}
-            result={elem.result}
           />
         )
       case TYPES.text:
         return (
-          <TextBlock />
+          <TextBlock elem={elem} />
         )
       default:
         break;
     }
-  }
+  }, [])
 
   return (
     <>

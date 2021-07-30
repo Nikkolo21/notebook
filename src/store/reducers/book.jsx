@@ -3,6 +3,7 @@ import {
   CLOSE_HELP_MODAL,
   PUSH_BLOCK,
   EDIT_BLOCK,
+  DELETE_BLOCK,
 } from '../actions/book';
 
 const initialState = {
@@ -43,6 +44,12 @@ const bookReducer = (state = initialState, action) => {
       return {
         ...state,
         blocks: finalBlock,
+      };
+    }
+    case DELETE_BLOCK: {
+      return {
+        ...state,
+        blocks: state.blocks.filter(block => block?.name !== action.payload.name),
       };
     }
     default:
