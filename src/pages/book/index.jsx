@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useLayoutEffect } from 'react';
 import { useCallback } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { v4 as uuidv4 } from 'uuid';
@@ -33,27 +33,22 @@ const Book = () => {
     dispatch(pushBlock(getNewElement(TYPES.text)));
   }, [dispatch])
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     createCodeBlock();
   }, []); // add a new element when the app load
 
-  const findBlock = (editor) => {
+  const findBlock = editor => {
     return blocks.find(block => block.name === editor.container.id);
   };
 
-  const editBlockFn = (block) => {
-    dispatch(editBlock(block));
-  }
-
   const runCode = editor => {
     const findedBlock = findBlock(editor);
-    editBlockFn({...findedBlock, result: editor.getValue()});
+    dispatch(editBlock({...findedBlock, result: editor.getValue()}));
   }
 
   const runCodeAndCreate = editor => {
     const findedBlock = findBlock(editor);
-    editBlockFn({...findedBlock, result: editor.getValue()});
-    dispatch(pushBlock(getNewElement(TYPES.editor)));
+    dispatch(editBlock({...findedBlock, result: editor.getValue()}));
   }
 
   const openHelpModalFn = () => {
@@ -66,7 +61,7 @@ const Book = () => {
         return (
           <CodeBlock
             elem={elem}
-            runCodeFn={runCode}
+            runCodeFn={runCode} 
             runCodeAndCreateFn={runCodeAndCreate}
             createCodeBlockFn={createCodeBlock}
             createTextBlockFn={createTextBlock}
@@ -75,29 +70,33 @@ const Book = () => {
         )
       case TYPES.text:
         return (
-          <TextBlock elem={elem} />
+          <TextBlock id={elem.name} elem={elem} />
         )
       default:
         break;
     }
-  }, [])
+  }, [blocks])
 
   return (
     <>
-      <section className="book-section">
-        <button className="book-section_help-toggle" onClick={openHelpModalFn}>
-          ?
-        </button>
-        <div className="book-section_body">
-          {
-            blocks.map((elem, index) => (
-            <section key={index}>
-              {getBlock(elem)}
-            </section>)
-            )
-          }
-        </div>
-      </section>
+      {
+        blocks[0] && (
+          <section className="book-section">
+            <button className="book-section_help-toggle" onClick={openHelpModalFn}>
+              ?
+            </button>
+            <div className="book-section_body">
+              {
+                blocks.map((elem, index) => (
+                <section key={index}>
+                  {getBlock(elem)}
+                </section>)
+                )
+              }
+            </div>
+          </section>
+        )
+      }
       <HelpModal />
     </>
   );

@@ -10,7 +10,7 @@ import "ace-builds/src-noconflict/theme-github";
 import { Block } from '../block';
 import ConsoleBlock from '../consoleBlock';
 import { commands } from '../../../utils/commands';
-import { deleteBlock, editBlock } from '../../../store/actions/book';
+import { deleteBlock } from '../../../store/actions/book';
 import './CodeBlock.scss';
 
 const CodeBlock = ({
