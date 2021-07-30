@@ -5,7 +5,7 @@ import { v4 as uuidv4 } from 'uuid';
 import CodeBlock from '../../components/blocks/codeBlock';
 import { TextBlock } from '../../components/blocks/textBlock';
 import { HelpModal } from '../../components/modals/helpModal';
-import { openHelpModal, setBlock } from '../../store/actions/book';
+import { editBlock, openHelpModal, pushBlock } from '../../store/actions/book';
 import { getBlocksSelector } from '../../store/selectors/book';
 import './Book.scss';
 
@@ -27,39 +27,30 @@ const Book = () => {
   const [elements, setElements] = useState([]);
 
   const createCodeBlock = useCallback(() => {
-    dispatch(setBlock(getNewElement(TYPES.editor)));
+    dispatch(pushBlock(getNewElement(TYPES.editor)));
   }, [dispatch])
 
   const createTextBlock = useCallback(() => {
-    dispatch(setBlock(getNewElement(TYPES.text)));
+    dispatch(pushBlock(getNewElement(TYPES.text)));
   }, [dispatch])
 
   useEffect(() => {
     createCodeBlock();
   }, []); // add a new element when the app load
 
+  const findBlock = (editor) => {
+    return blocks.find(block => block.name === editor.container.id);
+  };
+
   const runCode = editor => {
-    setElements(elem => {
-      const newElements = elem.map(e => {
-        if(e.name === editor.container.id) {
-          return {...e, result: editor.getValue()};
-        }
-        return e;
-      })
-      return newElements;
-    });
+    const findedBlock = findBlock(editor);
+    dispatch(editBlock({...findedBlock, result: editor.getValue()}));
   }
 
   const runCodeAndCreate = editor => {
-    setElements(elem => {
-      const newElements = elem.map(e => {
-        if(e.name === editor.container.id) {
-          return {...e, result: editor.getValue()};
-        }
-        return e;
-      });
-      return [...newElements, getNewElement(TYPES.editor)];
-    });
+    const findedBlock = findBlock(editor);
+    dispatch(editBlock({...findedBlock, result: editor.getValue()}));
+    dispatch(pushBlock(getNewElement(TYPES.editor)));
   }
 
   const openHelpModalFn = () => {

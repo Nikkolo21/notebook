@@ -3,13 +3,16 @@
   margin: 40px 0;
   .block-actions {
     position: absolute;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-evenly;
     left: -160px;
     z-index: 2;
+    padding: 1px;
     min-width: 120px;
     border-radius: 5px;
     height: 30px;
     color: white;
-    display: grid;
-    place-items: center;
   }
 }

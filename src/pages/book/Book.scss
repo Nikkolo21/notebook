@@ -1,23 +1,29 @@
 .book-section {
   width: 100%;
   display: grid;
-  place-items: center;
-  padding: 20px 0;
+  justify-items: center;
+  position: relative;
+  min-height: 100vh;
   &_body {
     width: 100%;
     max-width: 1000px;
     padding: 50px 0;
   }
   &_help-toggle {
+    position: absolute;
+    z-index: 2;
     cursor: pointer;
     font-weight: bold;
     border: none;
-    padding: 10px 20px;
-    background-color: #b5bbff;
+    width: 40px;
+    height: 40px;
+    // background-color: #b5bbff;
+    background-color: rgba($color: #000000, $alpha: 0.2);
     color: white;
-    place-self: end;
     font-size: 16px;
     margin-right: 20px;
-    border-radius: 5px;
+    border-radius: 100%;
+    right: 20px;
+    bottom: 20px;
   }
 }

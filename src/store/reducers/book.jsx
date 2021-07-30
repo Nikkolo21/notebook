@@ -1,7 +1,8 @@
 import {
   OPEN_HELP_MODAL,
   CLOSE_HELP_MODAL,
-  SET_BLOCK,
+  PUSH_BLOCK,
+  EDIT_BLOCK,
 } from '../actions/book';
 
 const initialState = {
@@ -23,13 +24,25 @@ const bookReducer = (state = initialState, action) => {
         helpModal: false,
       };
     }
-    case SET_BLOCK: {
+    case PUSH_BLOCK: {
       return {
         ...state,
         blocks: [
           ...state.blocks,
           action.payload,
         ],
+      };
+    }
+    case EDIT_BLOCK: {
+      const finalBlock = state.blocks.map(block => {
+        if (block.name === action.payload.name) {
+          return action.payload;
+        }
+        return block;
+      })
+      return {
+        ...state,
+        blocks: finalBlock,
       };
     }
     default:
